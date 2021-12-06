@@ -16,6 +16,17 @@ export type PlayableCharacter = {
   gender: string,
 }
 
+export type PlayerStatistics = {
+  numberOfMissions: number,
+  missions: Array<Mission>,
+}
+export type Mission = {
+  enemyShip: string,
+  winProbability: number,
+  expGained: number,
+  didWin: boolean,
+}
+
 export type PlayableStarship = {
   id: string,
   category: string,

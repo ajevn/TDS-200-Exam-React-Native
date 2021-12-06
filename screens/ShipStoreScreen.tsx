@@ -33,10 +33,15 @@ export default function ShipStoreScreen() {
     const [selectedStarship, setSelectedStarship] = useState<PlayableStarship>();
 
     useEffect(() => {
-        getAllStarship();
-    }, []);
+        if(!searchActive){
+            getAllStarship();
+        } else {
+            setMasterDataSource(filteredDataSource)
+        }
+    }, [filteredDataSource, searchActive]);
 
     const sortOutputList = (unsorted: Array<PlayableStarship>) => {
+        // @ts-ignore
         const sorted = unsorted.sort((a, b) => parseInt(a.cost_in_credits) - parseInt(b.cost_in_credits));
         return sorted.filter(item => item.name != playerShip!.name)
     }
@@ -86,39 +91,41 @@ export default function ShipStoreScreen() {
     }
 
     return (
-        <SafeAreaView style={{flex: 1,}}>
-            <ImageBackground style={ styles.container } source={require('../assets/images/background_store2.jpg')}>
-              <HeaderInfoStats />
-              <Text style={styles.greetingText}>Intergalactic</Text>
-              <Text style={styles.greetingText}>Starship Dealership</Text>
-              <View style={styles.storeContainer}>
-              <SearchBar
+    <SafeAreaView style={{flex: 1,}}>
+        <ImageBackground style={ styles.container } source={require('../assets/images/background_store2.jpg')}>
+        <HeaderInfoStats />
+        <Text style={styles.greetingText}>Intergalactic</Text>
+        <Text style={styles.greetingText}>Starship Dealership</Text>
+            <View style={styles.storeContainer}>
+                <SearchBar
                     searchValue={search}
                     setSearchValue={handleSearch}
                     setSearchActive={handleSearchToggle}
                 />
-              {loading ?
+                {loading ?
                         <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
                             <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
                         </View>
                         :
                         <View>
                             <FlatList
-                                data={searchActive ? filteredDataSource : masterDataSource}
+                                data={masterDataSource}
                                 showsVerticalScrollIndicator={false}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={(item) => item.url}
-                                renderItem={({item}) => <PurchasableStarshipCard url={item.url}
-                                                                            category={item.category}
-                                                                            selectedStarship={selectedStarship}
-                                                                            changeSelectedStarship={updateSelectedStarship}
-                                                                            name={item.name}
-                                                                            model={item.model}
-                                                                            costInCredits={item.cost_in_credits}
-                                                                            crew={item.crew}
-                                                                            hyperdriveRating={item.hyperdrive_rating}
-                                                                            starshipClass={item.starship_class}
-                                                                            pilots={item.pilots}
+                                renderItem={({item}) =>
+                                    <PurchasableStarshipCard
+                                        url={item.url}
+                                        category={item.category}
+                                        selectedStarship={selectedStarship}
+                                        changeSelectedStarship={updateSelectedStarship}
+                                        name={item.name}
+                                        model={item.model}
+                                        costInCredits={item.cost_in_credits}
+                                        crew={item.crew}
+                                        hyperdriveRating={item.hyperdrive_rating}
+                                        starshipClass={item.starship_class}
+                                        pilots={item.pilots}
                                 />}
                             />
                         </View>
@@ -129,8 +136,8 @@ export default function ShipStoreScreen() {
                       <View/>
                   }
               </View>
-          </ImageBackground>
-        </SafeAreaView>
+        </ImageBackground>
+    </SafeAreaView>
   );
 }
 

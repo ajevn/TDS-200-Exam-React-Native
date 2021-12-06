@@ -83,16 +83,38 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         paddingHorizontal: 10,
         paddingVertical: 10,
+        borderWidth: 2,
+        borderStyle: "solid",
+        backgroundColor: 'rgba(52, 52, 52, 0.5)',
+        borderColor: Colors.global.backgroundDarkGray,
+        borderRadius: 5,
+        elevation: 1,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 5,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
     containerSelected: {
         flex: 1,
         marginBottom: 60,
         marginHorizontal: 30,
         alignContent: 'center',
-        backgroundColor: 'rgba(52, 52, 52, 0.8)',
-        borderRadius: 20,
+        backgroundColor: 'rgba(34,38,41, 0.8)',
         paddingHorizontal: 10,
         paddingVertical: 10,
+        borderColor: Colors.global.backgroundDarkGray,
+        borderRadius: 2,
+        elevation: 1,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 5,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
     detailsContainer: {
         alignContent: 'center',

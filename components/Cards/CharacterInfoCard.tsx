@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import Colors from "../../constants/Colors";
 // @ts-ignore
 import ProgressBar from 'react-native-progress/Bar';
 import {useAppSelector} from "../../hooks/hooks";
 
 export default function CharacterInfoCard() {
-    const screen = Dimensions.get("screen")
     const playerCharacter = useAppSelector((state) => state.gameState.playerCharacter)
     const playerLevel = useAppSelector((state) => state.gameState.playerLevel)
     const playerExp = useAppSelector((state) => state.gameState.playerExp)
@@ -25,9 +24,7 @@ export default function CharacterInfoCard() {
                 return <Image style={styles.portraitImage} source={require('../../assets/images/character_20_portrait.jpeg')} />
         }
     }
-
     let characterPortraitImage = fetchCharacterImageUrl();
-
     return (
         <View style={styles.detailsContainer}>
             {characterPortraitImage}

@@ -29,7 +29,6 @@ export default function Navigation() {
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
 function RootNavigator() {
   return (
     <Stack.Navigator>
@@ -37,7 +36,6 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
-
 function RootNewGameNavigator() {
     return (
         <Stack.Navigator>
@@ -47,7 +45,6 @@ function RootNewGameNavigator() {
 }
 
 const GameCreationStack = createNativeStackNavigator();
-
 function NewGameCreatorNavigator() {
   return (
     <GameCreationStack.Navigator>
@@ -59,13 +56,13 @@ function NewGameCreatorNavigator() {
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
 function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
       initialRouteName="LandingTab"
       screenOptions={{
+          tabBarHideOnKeyboard: true,
           tabBarActiveTintColor: Colors.global.textYellow,
           tabBarInactiveTintColor: Colors.global.lightGray,
           tabBarStyle: { backgroundColor: Colors.global.backgroundGray},
@@ -97,11 +94,4 @@ function BottomTabNavigator() {
         />
     </BottomTab.Navigator>
   );
-}
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }

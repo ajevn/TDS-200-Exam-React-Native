@@ -3,19 +3,18 @@ import {
     ActivityIndicator,
     Button,
     FlatList,
-    ImageBackground, SafeAreaView,
+    SafeAreaView,
     StyleSheet,
     Text,
-    TouchableHighlight,
     View
 } from 'react-native'
 import SelectableCharacterCard from '../components/Cards/SelectableCharacterCard'
 import Colors from '../constants/Colors'
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import { changePlayerCharacter } from '../store/gameState'
-import {PlayableCharacter, RootStackScreenProps} from '../types'
+import {PlayableCharacter} from '../types'
 
-const CharacterSelectScreen = ({ route, navigation }: any ) => {
+const CharacterSelectScreen = ({ navigation }: any ) => {
     const availableCharacterIds = useAppSelector((state) => state.gameState.availableCharacterIds)
     const dispatch = useAppDispatch();
 
@@ -30,20 +29,18 @@ const CharacterSelectScreen = ({ route, navigation }: any ) => {
     const getAllCharacters = async() => {
         setLoading(true);
         let results: PlayableCharacter[] = [];
-
-        for(let id of availableCharacterIds){
-            const response = await fetch('https://swapi.dev/api/people/' + id + '/')
-            const body = await response.json()
-            let character: PlayableCharacter = {
-                id: id,
-                category: 'people',
-                name: body.name,
-                height: body.height,
-                gender: body.gender,
+            for(let id of availableCharacterIds){
+                const response = await fetch('https://swapi.dev/api/people/' + id + '/')
+                const body = await response.json()
+                let character: PlayableCharacter = {
+                    id: id,
+                    category: 'people',
+                    name: body.name,
+                    height: body.height,
+                    gender: body.gender,
+                }
+                results.push(character)
             }
-            results.push(character)
-        }
-        
         setCharacterList(results)
         setLoading(false);
     }
@@ -51,7 +48,6 @@ const CharacterSelectScreen = ({ route, navigation }: any ) => {
     const handlePressNext = () => {
         navigation.navigate('ShipSelect');
     }
-
     const updateSelectedCharacter = (character: PlayableCharacter) => {
         dispatch(changePlayerCharacter(character))
         setSelectedPlayer(character);
@@ -73,15 +69,14 @@ const CharacterSelectScreen = ({ route, navigation }: any ) => {
                     }
                     {
                         selectedCharacter != null ?
-                            <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
-                            :
-                            <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
+                        <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
+                        :
+                        <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
                     }
             </View>
         </SafeAreaView>
     );
   }
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,

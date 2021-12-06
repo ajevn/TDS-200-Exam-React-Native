@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Colors from "../../../constants/Colors";
 // @ts-ignore
 import ProgressBar from 'react-native-progress/Bar';
@@ -28,7 +28,6 @@ export default function HeaderInfoStats() {
     }
 
     let characterPortraitImage = fetchCharacterImageUrl();
-
     return (
         <ImageBackground source={require('../../../assets/images/background_header3.jpg')} style={styles.containerBackground}>
             <View style={styles.container}>
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         flexDirection: "row",
         alignContent: 'center',
-        height: 70,
+        height: 90,
         width: Dimensions.get('screen').width,
         justifyContent: 'center',
         shadowColor: "black",
@@ -118,5 +117,4 @@ const styles = StyleSheet.create({
         fontFamily: "odibee-sans",
         alignSelf: 'center',
     },
-
 });

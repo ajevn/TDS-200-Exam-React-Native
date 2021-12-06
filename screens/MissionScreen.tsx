@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {
     ActivityIndicator,
-    Button, Dimensions,
+    Dimensions,
     FlatList,
     ImageBackground,
     Pressable,
@@ -12,7 +12,7 @@ import {
     View
 } from 'react-native';
 
-import {PlayableStarship, RootTabScreenProps} from '../types';
+import {PlayableStarship} from '../types';
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import HeaderInfoStats from "../components/UI/HeaderInfo/HeaderInfoStats";
 import Colors from "../constants/Colors";
@@ -20,7 +20,7 @@ import EnemyStarshipCard from "../components/Cards/EnemyStarshipCard";
 import {addExp, handleMissionOutcome} from "../store/gameState";
 import MissionModal from '../components/UI/Modal/MisisonModal';
 
-export default function MissionScreen({ navigation }: RootTabScreenProps<'LandingTab'>) {
+export default function MissionScreen() {
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
     const dispatch = useAppDispatch();
 
@@ -76,7 +76,6 @@ export default function MissionScreen({ navigation }: RootTabScreenProps<'Landin
         setMissionModalVisible(false)
     }
     const updateSelectedStarship = (starShip: PlayableStarship) => {
-        //dispatch(changePlayerShipId(starShip))
         setSelectedStarship(starShip);
     }
 
@@ -98,25 +97,33 @@ export default function MissionScreen({ navigation }: RootTabScreenProps<'Landin
                                 showsVerticalScrollIndicator={false}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={(item) => item.url}
-                                renderItem={({item}) => <EnemyStarshipCard url={item.url}
-                                                                            category={item.category}
-                                                                            selectedStarship={selectedStarship}
-                                                                            changeSelectedStarship={updateSelectedStarship}
-                                                                            name={item.name}
-                                                                            model={item.model}
-                                                                            costInCredits={item.cost_in_credits}
-                                                                            crew={item.crew}
-                                                                            hyperdriveRating={item.hyperdrive_rating}
-                                                                            starshipClass={item.starship_class}
-                                                                            pilots={item.pilots}
+                                renderItem={({item}) =>
+                                    <EnemyStarshipCard
+                                        url={item.url}
+                                        category={item.category}
+                                        selectedStarship={selectedStarship}
+                                        changeSelectedStarship={updateSelectedStarship}
+                                        name={item.name}
+                                        model={item.model}
+                                        costInCredits={item.cost_in_credits}
+                                        crew={item.crew}
+                                        hyperdriveRating={item.hyperdrive_rating}
+                                        starshipClass={item.starship_class}
+                                        pilots={item.pilots}
                                 />}
                             />
-                            <Pressable style={styles.button} onPress={handlePressFight}>
-                                <Text style={styles.headerText} >Fight!</Text>
+                            <Pressable disabled={!selectedStarship} style={styles.button} onPress={handlePressFight}>
+                                <Text style={styles.buttonText} >Fight!</Text>
                             </Pressable>
                         </View>
                     }
-
+                    {
+                        combatActive
+                            ?
+                            <Text style={styles.headerText}>Fighting..</Text>
+                            :
+                            null
+                    }
                 </View>
                 <View>
                     {missionModalVisible ? <MissionModal visible={missionModalVisible} missionSuccess={missionSuccess} expGain={"300"} onTapClose={handleCloseModal}/> : null}
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     combatContainer: {
-        marginVertical: Dimensions.get('screen').height / 9,
+        marginVertical: Dimensions.get('screen').height / 14,
     },
     spinnerHorizontal: {
         flexDirection: "row",
@@ -149,12 +156,10 @@ const styles = StyleSheet.create({
     button: {
         alignSelf: 'center',
         borderRadius: 20,
-        padding: 5,
         elevation: 2,
         backgroundColor: Colors.global.backgroundDarkGray,
-        paddingHorizontal: 25,
-        paddingVertical: 15,
-        alignItems: "center",
+        paddingHorizontal: 30,
+        paddingVertical: 20,
         shadowColor: "#000",
         shadowOffset: {
         width: 0,
@@ -164,7 +169,13 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     buttonClose: {
-    backgroundColor: "#2196F3",
+        backgroundColor: "#2196F3",
+    },
+    buttonText: {
+        fontSize: 30,
+        fontFamily: "odibee-sans",
+        color: Colors.global.textYellow,
+        alignSelf: 'center',
     },
     headerText: {
         fontSize: 40,

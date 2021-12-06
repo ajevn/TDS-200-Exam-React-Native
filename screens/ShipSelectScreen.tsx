@@ -6,21 +6,17 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    TouchableHighlight,
     View
 } from 'react-native'
 import SelectableStarshipCard from '../components/Cards/SelectableStarshipCard'
 import Colors from '../constants/Colors'
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
-import { changePlayerShipId, setCreatedGame } from '../store/gameState'
+import { changePlayerShip, setCreatedGame } from '../store/gameState'
 import { PlayableStarship } from '../types'
 
 const ShipSelectScreen = () => {
     const availableShipIds = useAppSelector((state) => state.gameState.availableShipIds)
     const dispatch = useAppDispatch();
-
-    const shipId = useAppSelector((state) => state.gameState.playerShip)
-    const selectedCharacter = useAppSelector((state) => state.gameState.playerCharacter)
 
     const [starshipList, setStarshipList] = useState<PlayableStarship[]>();
     const [loading, setLoading] = useState<Boolean>(true);
@@ -32,7 +28,6 @@ const ShipSelectScreen = () => {
 
     async function getAllStarship() {
         setLoading(true);
-
         let results: PlayableStarship[] = [];
             for(let id of availableShipIds){
                 const response = await fetch('https://swapi.dev/api/starships/' + id + '/')
@@ -50,7 +45,6 @@ const ShipSelectScreen = () => {
                 }
                 results.push(starship)
             }
-
         setStarshipList(results)
         setLoading(false);
     }
@@ -58,10 +52,8 @@ const ShipSelectScreen = () => {
     const handlePressFinish = () => {
         dispatch(setCreatedGame(true))
     }
-
     const updateSelectedStarship = (starShip: PlayableStarship) => {
-
-        dispatch(changePlayerShipId(starShip))
+        dispatch(changePlayerShip(starShip))
         setSelectedStarship(starShip);
     }
     return (

@@ -27,10 +27,7 @@ const PurchasableStarshipCard = ({category, changeSelectedStarship, url, name, m
 
     const canAfford = () => {
         const costParsed = parseInt(costInCredits)
-        if(playerBalance >= costParsed){
-            return true
-        }
-        return false
+        return playerBalance >= costParsed;
     }
 
     const handlePurchase = () => {
@@ -81,6 +78,19 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         paddingHorizontal: 10,
         paddingVertical: 10,
+        borderWidth: 2,
+        borderStyle: "solid",
+        backgroundColor: '#2D2D34',
+        borderColor: Colors.global.backgroundDarkGray,
+        borderRadius: 30,
+        elevation: 1,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 5,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
     textPrice: {
         color: Colors.global.textYellow,

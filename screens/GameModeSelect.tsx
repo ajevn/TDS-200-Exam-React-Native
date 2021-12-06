@@ -1,20 +1,16 @@
-import React, {useState} from 'react'
-import {ActivityIndicator, ImageBackground, StyleSheet, Text, TouchableHighlight, View} from 'react-native'
+import React from 'react'
+import {ImageBackground, StyleSheet, Text, TouchableHighlight, View} from 'react-native'
 import Colors from '../constants/Colors'
-import { useAppSelector, useAppDispatch } from '../hooks/hooks'
-import {RootStackScreenProps} from "../types";
+import { useAppSelector } from '../hooks/hooks'
 
-const GameModeSelect = ({ route, navigation }: any ) => {
-
-
-
+const GameModeSelect = ({ navigation }: any ) => {
     const gameIsActive = useAppSelector((state) => state.gameState.createdGame)
-    const dispatch = useAppDispatch();
+    let backgroundImage = '../assets/images/star_background.jpg'
+
     const onPress = () => {
         navigation.navigate('CharacterSelect');
     };
 
-    let backgroundImage = '../assets/images/star_background.jpg'
     return (
         <View style={styles.container}>
           <ImageBackground source={require(backgroundImage)} resizeMode="cover" style={styles.backgroundImage}>
