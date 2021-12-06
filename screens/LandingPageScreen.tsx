@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Animated, Button, Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Animated, Button, Dimensions, Image, ImageBackground, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 import { RootTabScreenProps } from '../types';
 import {useRef} from "react";
@@ -16,24 +16,26 @@ export default function LandingPageScreen({ navigation }: RootTabScreenProps<'La
     const playerLevel = useAppSelector((state) => state.gameState.playerLevel)
 
     return (
-      <ImageBackground style={ styles.container } source={require('../assets/images/background_landingPage.jpg')}>
-          <HeaderInfoStats />
-          <Text style={styles.greetingText}>Greetings {playerCharacter!.name}</Text>
-          <ShipInfoCard />
-      </ImageBackground>
+        <SafeAreaView style={{flex: 1,}}>
+            <ImageBackground style={ styles.container } source={require('../assets/images/background_landingPage.jpg')}>
+              <HeaderInfoStats />
+              <Text style={styles.greetingText}>Greetings {playerCharacter!.name}</Text>
+              <ShipInfoCard />
+            </ImageBackground>
+        </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+    container: {
     flex: 1,
-  },
-  title: {
+    },
+    title: {
     fontSize: 30,
       color: Colors.global.textYellow,
       fontFamily: "odibee-sans",
       alignSelf: 'center',
-  },
+    },
     greetingText: {
         marginTop: 5,
         fontSize: 40,

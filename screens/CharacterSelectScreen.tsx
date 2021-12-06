@@ -3,7 +3,7 @@ import {
     ActivityIndicator,
     Button,
     FlatList,
-    ImageBackground,
+    ImageBackground, SafeAreaView,
     StyleSheet,
     Text,
     TouchableHighlight,
@@ -58,25 +58,27 @@ const CharacterSelectScreen = ({ route, navigation }: any ) => {
     }
 
     return (
-        <View style={styles.container}>
-                <Text style={styles.headerText}>Choose your character</Text>
-                {loading ?
-                    <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
-                        <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
-                    </View>
-                    :
-                    <FlatList
-                    data={characterList}
-                    renderItem={({item}) => <SelectableCharacterCard id={item.id} selectedCharacterProp={selectedCharacter} updateSelectedCharacter={updateSelectedCharacter} category={'people'} name={item.name} height={item.height} gender={item.gender} />}
-                    />
-                }
-                {
-                    selectedCharacter != null ?
-                        <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
+        <SafeAreaView style={{flex: 1,}}>
+            <View style={styles.container}>
+                    <Text style={styles.headerText}>Choose your character</Text>
+                    {loading ?
+                        <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
+                            <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
+                        </View>
                         :
-                        <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
-                }
-        </View>
+                        <FlatList
+                        data={characterList}
+                        renderItem={({item}) => <SelectableCharacterCard id={item.id} selectedCharacterProp={selectedCharacter} updateSelectedCharacter={updateSelectedCharacter} category={'people'} name={item.name} height={item.height} gender={item.gender} />}
+                        />
+                    }
+                    {
+                        selectedCharacter != null ?
+                            <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
+                            :
+                            <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
+                    }
+            </View>
+        </SafeAreaView>
     );
   }
 

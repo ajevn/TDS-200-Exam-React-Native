@@ -98,13 +98,6 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginBottom: 20,
     },
-    portraitImage: {
-        flex: 1,
-        width: 150,
-        height: 150,
-        borderRadius: 20,
-        alignSelf: 'center',
-    },
     text: {
         marginTop: 5,
         fontSize: 20,

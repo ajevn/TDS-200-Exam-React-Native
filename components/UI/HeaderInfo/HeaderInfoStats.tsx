@@ -42,10 +42,9 @@ export default function HeaderInfoStats() {
                     {characterPortraitImage}
                 </View>
                 <View style={styles.fundContainer}>
-
                     <Text style={styles.fundText}>
                         <FontAwesome name="dollar" style={styles.fundIcon} color={Colors.global.textYellow} size={tabBarIconSize}/>
-                        {playerFunds}
+                        {playerFunds.toLocaleString()}
                     </Text>
                 </View>
             </View>

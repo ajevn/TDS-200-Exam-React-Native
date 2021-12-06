@@ -12,6 +12,7 @@ import Colors from '../constants/Colors';
 import GameModeSelect from '../screens/GameModeSelect';
 import {tabBarIconSize} from "../constants/Variables";
 import MissionScreen from "../screens/MissionScreen";
+import ShipStoreScreen from '../screens/ShipStoreScreen';
 
 export default function Navigation() {
   const gameIsActive = useAppSelector((state) => state.gameState.createdGame)
@@ -87,11 +88,11 @@ function BottomTabNavigator() {
             }}
         />
         <BottomTab.Screen
-            name="SettingsTab"
-            component={LandingPageScreen}
+            name="ShipStoreTab"
+            component={ShipStoreScreen}
             options={{
-                title: 'Settings',
-                tabBarIcon: ({color}) => <FontAwesome name="cog" color={color} size={tabBarIconSize}/>,
+                title: 'Store',
+                tabBarIcon: ({color}) => <FontAwesome name="shopping-bag" color={color} size={tabBarIconSize}/>,
             }}
         />
     </BottomTab.Navigator>

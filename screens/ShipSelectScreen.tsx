@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import {ActivityIndicator, Button, FlatList, StyleSheet, Text, TouchableHighlight, View} from 'react-native'
+import {
+    ActivityIndicator,
+    Button,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    View
+} from 'react-native'
 import SelectableStarshipCard from '../components/Cards/SelectableStarshipCard'
 import Colors from '../constants/Colors'
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
@@ -56,31 +65,33 @@ const ShipSelectScreen = () => {
         setSelectedStarship(starShip);
     }
     return (
-        <View style={styles.container}>
-            <Text style={styles.headerText}>Choose your ship</Text>
-            {loading ?
-                <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
-                    <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
-                </View>
-                :
-                <FlatList 
-                data={starshipList}
-                renderItem={({item}) => <SelectableStarshipCard id={item.id} 
-                category={item.category} 
-                selectedStarship={selectedStarship}
-                changeSelectedStarship={updateSelectedStarship} 
-                name={item.name} 
-                model={item.model} 
-                costInCredits={item.costInCredits}
-                crew={item.crew}
-                hyperdriveRating={item.hyperdriveRating}
-                starshipClass={item.starshipClass}
-                pilots={item.pilots}
-                />}
-                /> 
-            }
-            <Button title={'Finish'} onPress={handlePressFinish}/>
-        </View>
+        <SafeAreaView style={{flex: 1,}}>
+            <View style={styles.container}>
+                <Text style={styles.headerText}>Choose your ship</Text>
+                {loading ?
+                    <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
+                        <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
+                    </View>
+                    :
+                    <FlatList
+                    data={starshipList}
+                    renderItem={({item}) => <SelectableStarshipCard id={item.id}
+                    category={item.category}
+                    selectedStarship={selectedStarship}
+                    changeSelectedStarship={updateSelectedStarship}
+                    name={item.name}
+                    model={item.model}
+                    costInCredits={item.costInCredits}
+                    crew={item.crew}
+                    hyperdriveRating={item.hyperdriveRating}
+                    starshipClass={item.starshipClass}
+                    pilots={item.pilots}
+                    />}
+                    />
+                }
+                <Button title={'Finish'} onPress={handlePressFinish}/>
+            </View>
+        </SafeAreaView>
     );
   }
   

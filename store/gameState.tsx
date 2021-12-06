@@ -28,15 +28,14 @@ const defaultShip: PlayableStarship = {
 }
 
 interface GameState {
-  createdGame: boolean,
-  availableCharacterIds: ["10", "11", "14", "20"],
-  availableShipIds: ["10", "11"],
-  playerCharacter: PlayableCharacter | null,
-  playerShip: PlayableStarship | null,
+    createdGame: boolean,
+    availableCharacterIds: ["10", "11", "14", "20"],
+    availableShipIds: ["10", "11"],
+    playerCharacter: PlayableCharacter | null,
+    playerShip: PlayableStarship | null,
     playerFunds: number,
     playerLevel: number,
     playerExp: number,
-    playerShipPower: number,
 }
 
 const initialState: GameState = {
@@ -48,7 +47,6 @@ const initialState: GameState = {
     playerFunds: 100000,
     playerLevel: 1,
     playerExp: 0,
-    playerShipPower: 120,
 }
 
 export const gameStateSlice = createSlice({
@@ -58,11 +56,9 @@ export const gameStateSlice = createSlice({
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     changePlayerCharacter: (state, action: PayloadAction<PlayableCharacter>) => {
-        console.log(action.payload)
       state.playerCharacter = action.payload
     },
-    changePlayerShipId: (state, action: PayloadAction<PlayableStarship>) => {
-        console.log(action.payload)
+    changePlayerShip: (state, action: PayloadAction<PlayableStarship>) => {
         state.playerShip = action.payload
     },
   addExp: (state, action: PayloadAction<number>) => {
@@ -77,6 +73,10 @@ export const gameStateSlice = createSlice({
           state.playerExp += action.payload
       }
   },
+  handlePlayerShipPurchase: (state, action: PayloadAction<PlayableStarship>) => {
+      state.playerShip = action.payload
+      state.playerFunds -= parseInt(action.payload.costInCredits);
+  },
   handleMissionOutcome: (state, action: PayloadAction<boolean>) => {
       if(action.payload ){
           state.playerFunds += 10000
@@ -90,7 +90,7 @@ export const gameStateSlice = createSlice({
   },
 })
 
-export const { changePlayerCharacter, changePlayerShipId, setCreatedGame, addExp, handleMissionOutcome } = gameStateSlice.actions
+export const { changePlayerCharacter, handlePlayerShipPurchase, changePlayerShip, setCreatedGame, addExp, handleMissionOutcome } = gameStateSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const getPlayerCharacter = (state: RootState) => state.gameState.playerCharacter

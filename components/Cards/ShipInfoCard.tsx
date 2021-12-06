@@ -26,8 +26,8 @@ export default function ShipInfoCard() {
             {shipPortraitImage}
             <View style={styles.levelContainer}>
                 <Text style={styles.title}>{playerShip!.name}</Text>
-                <Text style={styles.text}>Power: {playerShipPowerLevel}</Text>
-                <ProgressBar style={styles.progressBar} progress={playerShipPowerLevel / 1000} width={150}  color={Colors.global.teal} unfilledColor={Colors.global.backgroundGray} />
+                <Text style={styles.text}>Hyperdrive Rating: {playerShip!.hyperdriveRating}</Text>
+                <ProgressBar style={styles.progressBar} progress={parseFloat(playerShip!.hyperdriveRating) / 4.0} width={150}  color={Colors.global.teal} unfilledColor={Colors.global.backgroundGray} />
             </View>
         </View>
     );

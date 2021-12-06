@@ -6,7 +6,7 @@ import useCachedResources from './hooks/useCachedResources';
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 import Navigation from './navigation';
-import { StatusBar } from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
