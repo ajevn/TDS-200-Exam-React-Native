@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import {Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions} from "react-native";
 import Colors from "../../../constants/Colors";
 
 interface MissionModalProps{
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: Dimensions.get('screen').height / 5,
   },
   modalView: {
     margin: 20,

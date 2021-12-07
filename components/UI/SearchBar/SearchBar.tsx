@@ -7,7 +7,6 @@ interface SearchBarProps {
     setSearchValue: any,
     setSearchActive: any,
 }
-
 export default function SearchBar({ searchValue, setSearchValue, setSearchActive }: SearchBarProps) {
     const [clicked, setClicked] = useState<boolean>()
     return (
@@ -25,7 +24,7 @@ export default function SearchBar({ searchValue, setSearchValue, setSearchActive
             </View>
             {
                 clicked && (
-                <View>
+            <View>
                 <Button
                     title="Cancel"
                     onPress={() => {
@@ -42,7 +41,10 @@ export default function SearchBar({ searchValue, setSearchValue, setSearchActive
 
 const styles = StyleSheet.create({
     container: {
-        margin: 15,
+        marginTop: 15,
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 3,
         justifyContent: "flex-start",
         alignItems: "center",
         flexDirection: "row",
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
       searchBar_unclicked: {
         padding: 10,
         flexDirection: "row",
-        width: "95%",
+        width: "100%",
         backgroundColor: "#d9dbda",
         borderRadius: 15,
         alignItems: "center",

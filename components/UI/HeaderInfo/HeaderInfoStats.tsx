@@ -29,7 +29,6 @@ export default function HeaderInfoStats() {
 
     let characterPortraitImage = fetchCharacterImageUrl();
     return (
-        <ImageBackground source={require('../../../assets/images/background_header3.jpg')} style={styles.containerBackground}>
             <View style={styles.container}>
                 <View style={styles.detailsContainer}>
                     <View style={styles.levelContainer}>
@@ -47,8 +46,6 @@ export default function HeaderInfoStats() {
                     </Text>
                 </View>
             </View>
-        </ImageBackground>
-
     );
 }
 
@@ -59,6 +56,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         height: 90,
         width: Dimensions.get('screen').width,
+        backgroundColor: 'rgba(52, 52, 52, 0.4)',
         justifyContent: 'center',
         shadowColor: "black",
         shadowOpacity: 0.8,

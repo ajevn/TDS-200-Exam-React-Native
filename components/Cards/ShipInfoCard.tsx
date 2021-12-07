@@ -6,9 +6,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import {useAppSelector} from "../../hooks/hooks";
 
 export default function ShipInfoCard() {
-    const screen = Dimensions.get("screen")
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
-    const playerShipPowerLevel = useAppSelector((state) => state.gameState.playerShipPower)
 
     const fetchShipImageUrl = () => {
         switch(playerShip!.id){
@@ -43,7 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignContent: 'center',
         marginBottom: 20,
-        width: Dimensions.get('screen').width - 20,
+        marginHorizontal: 5,
         justifyContent: 'center',
         borderRadius: 20,
         backgroundColor: 'rgba(52, 52, 52, 0.8)'

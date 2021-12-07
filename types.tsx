@@ -17,11 +17,10 @@ export type PlayableCharacter = {
 }
 
 export type PlayerStatistics = {
-  numberOfMissions: number,
   missions: Array<Mission>,
 }
 export type Mission = {
-  enemyShip: string,
+  enemyShip: PlayableStarship | undefined,
   winProbability: number,
   expGained: number,
   didWin: boolean,

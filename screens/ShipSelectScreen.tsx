@@ -57,33 +57,33 @@ const ShipSelectScreen = () => {
         setSelectedStarship(starShip);
     }
     return (
-        <SafeAreaView style={{flex: 1,}}>
             <View style={styles.container}>
-                <Text style={styles.headerText}>Choose your ship</Text>
-                {loading ?
-                    <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
-                        <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
-                    </View>
-                    :
-                    <FlatList
-                    data={starshipList}
-                    renderItem={({item}) => <SelectableStarshipCard id={item.id}
-                    category={item.category}
-                    selectedStarship={selectedStarship}
-                    changeSelectedStarship={updateSelectedStarship}
-                    name={item.name}
-                    model={item.model}
-                    costInCredits={item.costInCredits}
-                    crew={item.crew}
-                    hyperdriveRating={item.hyperdriveRating}
-                    starshipClass={item.starshipClass}
-                    pilots={item.pilots}
-                    />}
-                    />
-                }
-                <Button title={'Finish'} onPress={handlePressFinish}/>
+                <SafeAreaView style={{flex: 1,}}>
+                    <Text style={styles.headerText}>Choose your ship</Text>
+                    {loading ?
+                        <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
+                            <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
+                        </View>
+                        :
+                        <FlatList
+                        data={starshipList}
+                        renderItem={({item}) => <SelectableStarshipCard id={item.id}
+                        category={item.category}
+                        selectedStarship={selectedStarship}
+                        changeSelectedStarship={updateSelectedStarship}
+                        name={item.name}
+                        model={item.model}
+                        costInCredits={item.costInCredits}
+                        crew={item.crew}
+                        hyperdriveRating={item.hyperdriveRating}
+                        starshipClass={item.starshipClass}
+                        pilots={item.pilots}
+                        />}
+                        />
+                    }
+                    <Button title={'Finish'} onPress={handlePressFinish}/>
+                </SafeAreaView>
             </View>
-        </SafeAreaView>
     );
   }
   

@@ -91,8 +91,8 @@ export default function ShipStoreScreen() {
     }
 
     return (
-    <SafeAreaView style={{flex: 1,}}>
-        <ImageBackground style={ styles.container } source={require('../assets/images/background_store2.jpg')}>
+    <ImageBackground style={ styles.container } source={require('../assets/images/background_store2.jpg')}>
+        <SafeAreaView style={{flex: 1,}}>
         <HeaderInfoStats />
         <Text style={styles.greetingText}>Intergalactic</Text>
         <Text style={styles.greetingText}>Starship Dealership</Text>
@@ -136,8 +136,8 @@ export default function ShipStoreScreen() {
                       <View/>
                   }
               </View>
-        </ImageBackground>
-    </SafeAreaView>
+        </SafeAreaView>
+    </ImageBackground>
   );
 }
 
@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
     storeContainer: {
         flex: 1,
         marginTop: 10,
-        backgroundColor: 'rgba(52, 52, 52, 0.8)',
     },
     title: {
         fontSize: 30,

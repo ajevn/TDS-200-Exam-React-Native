@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from './store'
-import {PlayableCharacter, PlayableStarship, PlayerStatistics} from "../types";
+import {Mission, PlayableCharacter, PlayableStarship, PlayerStatistics} from "../types";
 import {levelRequiredExp, defaultCharacter, defaultShip} from "../constants/Variables"
 
 interface GameState {
@@ -24,9 +24,8 @@ const initialState: GameState = {
     playerLevel: 1,
     playerExp: 0,
     playerStatistics: {
-        numberOfMissions: 0,
-
-    }
+        missions: [],
+    },
 }
 
 export const gameStateSlice = createSlice({
@@ -55,6 +54,10 @@ export const gameStateSlice = createSlice({
         state.playerShip = action.payload
         state.playerFunds -= parseInt(action.payload.costInCredits);
     },
+    addMissionToPlayerStats: (state, action: PayloadAction<Mission>) => {
+        console.log(action.payload)
+        state.playerStatistics.missions.push(action.payload)
+    },
     handleMissionOutcome: (state, action: PayloadAction<boolean>) => {
         if(action.payload ){
           state.playerFunds += 10000
@@ -68,7 +71,7 @@ export const gameStateSlice = createSlice({
   },
 })
 
-export const { changePlayerCharacter, changePlayerShip, handlePlayerShipPurchase, setCreatedGame, addExp, handleMissionOutcome } = gameStateSlice.actions
+export const { changePlayerCharacter, changePlayerShip, handlePlayerShipPurchase, setCreatedGame, addExp, handleMissionOutcome, addMissionToPlayerStats } = gameStateSlice.actions
 
 export const getPlayerCharacter = (state: RootState) => state.gameState.playerCharacter
 export const getPlayerShip = (state: RootState) => state.gameState.playerShip

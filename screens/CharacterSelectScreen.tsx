@@ -54,8 +54,8 @@ const CharacterSelectScreen = ({ navigation }: any ) => {
     }
 
     return (
-        <SafeAreaView style={{flex: 1,}}>
             <View style={styles.container}>
+                <SafeAreaView style={{flex: 1,}}>
                     <Text style={styles.headerText}>Choose your character</Text>
                     {loading ?
                         <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
@@ -73,8 +73,8 @@ const CharacterSelectScreen = ({ navigation }: any ) => {
                         :
                         <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
                     }
+                </SafeAreaView>
             </View>
-        </SafeAreaView>
     );
   }
   const styles = StyleSheet.create({

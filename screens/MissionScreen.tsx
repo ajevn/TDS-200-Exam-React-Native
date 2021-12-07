@@ -12,13 +12,14 @@ import {
     View
 } from 'react-native';
 
-import {PlayableStarship} from '../types';
+import {Mission, PlayableStarship} from '../types';
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import HeaderInfoStats from "../components/UI/HeaderInfo/HeaderInfoStats";
 import Colors from "../constants/Colors";
 import EnemyStarshipCard from "../components/Cards/EnemyStarshipCard";
-import {addExp, handleMissionOutcome} from "../store/gameState";
+import {addExp, addMissionToPlayerStats, handleMissionOutcome} from "../store/gameState";
 import MissionModal from '../components/UI/Modal/MisisonModal';
+import CombatAnimator from "../components/UI/CombatAnimator/CombatAnimator";
 
 export default function MissionScreen() {
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
@@ -31,11 +32,9 @@ export default function MissionScreen() {
     const [missionModalVisible, setMissionModalVisible] = useState(false);
     const [missionSuccess, setMissionSuccess] = useState(false);
 
-
     useEffect(() => {
         getAllStarship();
     }, []);
-
     async function getAllStarship() {
         setLoading(true);
         const response = await fetch('https://swapi.dev/api/starships/')
@@ -46,29 +45,31 @@ export default function MissionScreen() {
 
     const handlePressFight = () => {
         setCombatActive(true)
-        const percentage = (parseFloat(playerShip!.hyperdriveRating) / parseFloat(selectedStarship!.hyperdriveRating))
-        //Returns value between 0-1
-        let randomNum = Math.random();
-        //Checks if value is smaller than percentage -- Higher percentage chance will increase likelyhood of mission success, smaller will decrease
-        //Percentage is calculated based on ship hyperdrive rating.
-        setTimeout(() => {
-            if(randomNum <= percentage){
-                handleMissionSuccess()
-            } else {
-                handleMissionFailure()
-            }
-            setCombatActive(false)
-        }, 3000);
+    }
+    const createMissionDetails = (expGain: number, didWin: boolean) => {
+        const mission: Mission = {
+            enemyShip: selectedStarship,
+            expGained: expGain,
+            winProbability: (parseFloat(playerShip!.hyperdriveRating) / parseFloat(selectedStarship!.hyperdriveRating)),
+            didWin: didWin,
+        }
+        return mission;
     }
     const handleMissionSuccess = () => {
+        setCombatActive(false)
         dispatch(handleMissionOutcome(true))
         dispatch(addExp(300))
+        let missionStats = createMissionDetails(300, true)
+        dispatch(addMissionToPlayerStats(missionStats))
         setMissionSuccess(true)
         setMissionModalVisible(true)
     }
     const handleMissionFailure = () => {
+        setCombatActive(false)
         dispatch(handleMissionOutcome(false))
         dispatch(addExp(150))
+        let missionStats = createMissionDetails(150, false)
+        dispatch(addMissionToPlayerStats(missionStats))
         setMissionSuccess(false)
         setMissionModalVisible(true)
     }
@@ -80,11 +81,11 @@ export default function MissionScreen() {
     }
 
     return (
-        <SafeAreaView style={{flex: 1,}}>
             <ImageBackground style={ styles.container } source={require('../assets/images/background_missionScreen.jpg')}>
+                <SafeAreaView style={{flex: 1,}}>
                 <HeaderInfoStats />
                 <View style={styles.combatContainer}>
-                    {loading || combatActive ?
+                    {loading ?
                         <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
                             <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
                         </View>
@@ -117,19 +118,18 @@ export default function MissionScreen() {
                             </Pressable>
                         </View>
                     }
-                    {
-                        combatActive
-                            ?
-                            <Text style={styles.headerText}>Fighting..</Text>
-                            :
-                            null
+                    {combatActive
+                        ?
+                        <CombatAnimator combatActive={setCombatActive} missionSuccess={handleMissionSuccess} missionFailure={handleMissionFailure} selectedStarship={selectedStarship}/>
+                        :
+                        null
                     }
                 </View>
                 <View>
                     {missionModalVisible ? <MissionModal visible={missionModalVisible} missionSuccess={missionSuccess} expGain={"300"} onTapClose={handleCloseModal}/> : null}
                 </View>
+                </SafeAreaView>
             </ImageBackground>
-        </SafeAreaView>
     );
 }
 
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     combatContainer: {
-        marginVertical: Dimensions.get('screen').height / 14,
+        marginVertical: 10,
     },
     spinnerHorizontal: {
         flexDirection: "row",
