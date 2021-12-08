@@ -4,6 +4,7 @@ import useCachedResources from './hooks/useCachedResources';
 //Redux
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+//Navigation
 import Navigation from './navigation';
 import {StatusBar} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';

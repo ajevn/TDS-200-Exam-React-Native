@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import Colors from '../../constants/Colors'
 import {PlayableStarship} from "../../types";
 import {useAppSelector} from "../../hooks/hooks";
@@ -19,12 +19,13 @@ interface EnemyStarshipProps{
 }
 
 const EnemyStarshipCard = ({category, selectedStarship, changeSelectedStarship, url, name, model, costInCredits, crew, hyperdriveRating, starshipClass, pilots} : EnemyStarshipProps) => {
-
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
     let winProbability = "";
 
+    //Parses ID from url prop
     const urlArray = url.split("/")
     const id = urlArray[urlArray.length-2]
+    //Changes selected opponent in parent component
     const handleClick = () => {
         const newStarship: PlayableStarship = {
             id: id,
@@ -39,13 +40,12 @@ const EnemyStarshipCard = ({category, selectedStarship, changeSelectedStarship, 
         }
         changeSelectedStarship(newStarship)
     }
-
     const calculateWinProbability = () => {
         const percentage = (parseFloat(playerShip!.hyperdriveRating) / parseFloat(hyperdriveRating))
         winProbability = (percentage * 100).toString() + "%"
     }
     calculateWinProbability()
-
+    //Conditional styling based on win probability
     const getPercentageWinStyle = () => {
         const probabilityParsed = parseInt(winProbability)
         if(probabilityParsed >= 75) {
@@ -75,7 +75,6 @@ const EnemyStarshipCard = ({category, selectedStarship, changeSelectedStarship, 
 }
 
 export default EnemyStarshipCard
-
 const styles = StyleSheet.create({
     container: {
         marginBottom: 60,

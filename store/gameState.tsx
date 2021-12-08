@@ -3,6 +3,7 @@ import type { RootState } from './store'
 import {Mission, PlayableCharacter, PlayableStarship, PlayerStatistics} from "../types";
 import {levelRequiredExp, defaultCharacter, defaultShip} from "../constants/Variables"
 
+//Game state interface, as well as initial state. Available characterIds and shipIds are hard-coded to allow for local portrait image-url linking
 interface GameState {
     createdGame: boolean,
     availableCharacterIds: ["10", "11", "14", "20"],
@@ -15,7 +16,7 @@ interface GameState {
     playerStatistics: PlayerStatistics,
 }
 const initialState: GameState = {
-    createdGame: true,
+    createdGame: false,
     availableCharacterIds: ["10", "11", "14", "20"],
     availableShipIds: ["10", "11"],
     playerCharacter: defaultCharacter,
@@ -27,7 +28,8 @@ const initialState: GameState = {
         missions: [],
     },
 }
-
+//Reducers for gameState handling state update and business-logic. These functions does not check logic, as this is done in game components.
+//They serve only as Setter/Getters, with minimal logical checks.
 export const gameStateSlice = createSlice({
   name: 'gameState',
   initialState,
@@ -38,10 +40,10 @@ export const gameStateSlice = createSlice({
     changePlayerShip: (state, action: PayloadAction<PlayableStarship>) => {
         state.playerShip = action.payload
     },
+    //Handles exp gain from missions etc. Will account for level-up if exp exceeds "levelRequiredExp" from constant variables.
     addExp: (state, action: PayloadAction<number>) => {
         let currentExp = state.playerExp;
         const diffToNewLevel = levelRequiredExp - currentExp;
-            //Handle level up
             if(action.payload > diffToNewLevel){
               const overflowAmount = currentExp - levelRequiredExp;
               state.playerLevel++
@@ -55,7 +57,6 @@ export const gameStateSlice = createSlice({
         state.playerFunds -= parseInt(action.payload.costInCredits);
     },
     addMissionToPlayerStats: (state, action: PayloadAction<Mission>) => {
-        console.log(action.payload)
         state.playerStatistics.missions.push(action.payload)
     },
     handleMissionOutcome: (state, action: PayloadAction<boolean>) => {
@@ -70,15 +71,31 @@ export const gameStateSlice = createSlice({
     },
   },
 })
-
+//Exports reducer functions.
 export const { changePlayerCharacter, changePlayerShip, handlePlayerShipPurchase, setCreatedGame, addExp, handleMissionOutcome, addMissionToPlayerStats } = gameStateSlice.actions
+//Getters where calculation is necessary. All other attribute-getters gets data directly from State.
+export const getPlayerStats = (state: RootState) => {
+    let playerTotalFunds = 0;
+    let playerTotalWins = 0;
+    let playerTotalExp = 0;
 
-export const getPlayerCharacter = (state: RootState) => state.gameState.playerCharacter
-export const getPlayerShip = (state: RootState) => state.gameState.playerShip
-export const getPlayerFunds = (state: RootState) => state.gameState.playerFunds
-export const getAvailableCharacterIds = (state: RootState) => state.gameState.availableCharacterIds
-export const getAvailableShipIds = (state: RootState) => state.gameState.availableShipIds
-export const getPlayerLevel = (state: RootState) => state.gameState.playerLevel
-export const getPlayerExp = (state: RootState) => state.gameState.playerExp
+    state.gameState.playerStatistics.missions.forEach(mission => {
+        if(mission.didWin){
+            playerTotalFunds += 10000
+            playerTotalWins += 1
+            playerTotalExp += 300
+        } else {
+            playerTotalFunds =- 10000;
+            playerTotalExp += 150;
+        }
+    })
+
+    return {
+        totalFunds: playerTotalFunds,
+        totalExp: playerTotalExp,
+        totalWins: playerTotalWins,
+        winPercentage: playerTotalWins / state.gameState.playerStatistics.missions.length
+    }
+}
 
 export default gameStateSlice.reducer

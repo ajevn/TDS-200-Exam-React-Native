@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Colors from '../../constants/Colors'
 import {PlayableStarship} from "../../types";
 import {useAppSelector} from "../../hooks/hooks";
@@ -18,18 +18,18 @@ interface EnemyStarshipProps{
     starshipClass: string,
     pilots: Array<string>,
 }
-
+//A card displaying purchasable starships in starship store.
 const PurchasableStarshipCard = ({category, changeSelectedStarship, url, name, model, costInCredits, crew, hyperdriveRating, starshipClass, pilots} : EnemyStarshipProps) => {
 
     const playerBalance = useAppSelector((state) => state.gameState.playerFunds)
     const urlArray = url.split("/")
     const id = urlArray[urlArray.length-2]
-
+    //Determines if buttons should be enabled/disabled if player balance is sufficient
     const canAfford = () => {
         const costParsed = parseInt(costInCredits)
         return playerBalance >= costParsed;
     }
-
+    //Calls parent method for handling purchase, which in turn calls a method in redux provider to update state.
     const handlePurchase = () => {
         const newStarship: PlayableStarship = {
             id: id,
@@ -44,7 +44,6 @@ const PurchasableStarshipCard = ({category, changeSelectedStarship, url, name, m
         }
         changeSelectedStarship(newStarship)
     }
-
     return (
         <View style={ styles.container }>
             <View style={styles.detailsContainer}>

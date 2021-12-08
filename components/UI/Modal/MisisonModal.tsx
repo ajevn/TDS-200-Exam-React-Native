@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import {Alert, Modal, StyleSheet, Text, Pressable, View, Dimensions} from "react-native";
+import React from "react";
+import {Modal, StyleSheet, Text, Pressable, View, Dimensions} from "react-native";
 import Colors from "../../../constants/Colors";
 
 interface MissionModalProps{
@@ -8,50 +8,49 @@ interface MissionModalProps{
     visible: boolean,
     onTapClose: Function,
 }
-
-export default function MissionModal({missionSuccess, expGain, visible, onTapClose}: MissionModalProps) {
+//Modal rendering outcome of mission based on props passed from MissionScreen.
+export default function MissionModal({missionSuccess, visible, onTapClose}: MissionModalProps) {
   const handleTapClose = () => {
       onTapClose()
   }
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={visible}
-        onRequestClose={() => {
-          handleTapClose()
-        }}
-      >
-        <View style={styles.centeredView}>
-          {missionSuccess ? 
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeaderVictory}>Victory!</Text>
-            <Text style={styles.modalText}>+300 EXP</Text>
-            <Text style={styles.modalText}>+10000 Dollar</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleTapClose}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
-          </View>
-          :
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeaderDefeat}>Defeat...</Text>
-            <Text style={styles.modalText}>+150 EXP</Text>
-            <Text style={styles.modalText}>-10000 Dollar</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={handleTapClose}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
-          </View>
-        }
-        </View>
-      </Modal>
-    </View>
+      <View style={styles.centeredView}>
+           <Modal
+                animationType="fade"
+                transparent={true}
+                visible={visible}
+                onRequestClose={() => {
+                  handleTapClose()
+                }}>
+                <View style={styles.centeredView}>
+                    {missionSuccess ?
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalHeaderVictory}>Victory!</Text>
+                        <Text style={styles.modalText}>+300 EXP</Text>
+                        <Text style={styles.modalText}>+10000 Dollar</Text>
+                        <Pressable
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={handleTapClose}
+                        >
+                        <Text style={styles.textStyle}>Close</Text>
+                        </Pressable>
+                    </View>
+                    :
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalHeaderDefeat}>Defeat...</Text>
+                        <Text style={styles.modalText}>+150 EXP</Text>
+                        <Text style={styles.modalText}>-10000 Dollar</Text>
+                        <Pressable
+                          style={[styles.button, styles.buttonClose]}
+                          onPress={handleTapClose}
+                        >
+                          <Text style={styles.textStyle}>Close</Text>
+                        </Pressable>
+                    </View>
+                    }
+                </View>
+           </Modal>
+      </View>
   );
 };
 

@@ -14,6 +14,7 @@ import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import { changePlayerShip, setCreatedGame } from '../store/gameState'
 import { PlayableStarship } from '../types'
 
+//Main screen for selecting player ship
 const ShipSelectScreen = () => {
     const availableShipIds = useAppSelector((state) => state.gameState.availableShipIds)
     const dispatch = useAppDispatch();
@@ -25,7 +26,8 @@ const ShipSelectScreen = () => {
     useEffect(() => {
         getAllStarship();
     }, []);
-
+    //Fetching ship info of the ships the player can select in availableShipIds. Only offering 2 playable starships as these need
+    //local portrait images which are not offered by API.
     async function getAllStarship() {
         setLoading(true);
         let results: PlayableStarship[] = [];
@@ -48,7 +50,6 @@ const ShipSelectScreen = () => {
         setStarshipList(results)
         setLoading(false);
     }
-
     const handlePressFinish = () => {
         dispatch(setCreatedGame(true))
     }
@@ -57,33 +58,33 @@ const ShipSelectScreen = () => {
         setSelectedStarship(starShip);
     }
     return (
-            <View style={styles.container}>
-                <SafeAreaView style={{flex: 1,}}>
-                    <Text style={styles.headerText}>Choose your ship</Text>
-                    {loading ?
-                        <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
-                            <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
-                        </View>
-                        :
-                        <FlatList
-                        data={starshipList}
-                        renderItem={({item}) => <SelectableStarshipCard id={item.id}
-                        category={item.category}
-                        selectedStarship={selectedStarship}
-                        changeSelectedStarship={updateSelectedStarship}
-                        name={item.name}
-                        model={item.model}
-                        costInCredits={item.costInCredits}
-                        crew={item.crew}
-                        hyperdriveRating={item.hyperdriveRating}
-                        starshipClass={item.starshipClass}
-                        pilots={item.pilots}
-                        />}
-                        />
-                    }
-                    <Button title={'Finish'} onPress={handlePressFinish}/>
-                </SafeAreaView>
-            </View>
+        <View style={styles.container}>
+            <SafeAreaView style={{flex: 1,}}>
+                <Text style={styles.headerText}>Choose your ship</Text>
+                {loading ?
+                    <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
+                        <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
+                    </View>
+                    :
+                    <FlatList
+                    data={starshipList}
+                    renderItem={({item}) => <SelectableStarshipCard id={item.id}
+                    category={item.category}
+                    selectedStarship={selectedStarship}
+                    changeSelectedStarship={updateSelectedStarship}
+                    name={item.name}
+                    model={item.model}
+                    costInCredits={item.costInCredits}
+                    crew={item.crew}
+                    hyperdriveRating={item.hyperdriveRating}
+                    starshipClass={item.starshipClass}
+                    pilots={item.pilots}
+                    />}
+                    />
+                }
+                <Button title={'Finish'} onPress={handlePressFinish}/>
+            </SafeAreaView>
+        </View>
     );
   }
   

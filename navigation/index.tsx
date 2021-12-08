@@ -15,17 +15,18 @@ import MissionScreen from "../screens/MissionScreen";
 import ShipStoreScreen from '../screens/ShipStoreScreen';
 
 export default function Navigation() {
-  const gameIsActive = useAppSelector((state) => state.gameState.createdGame)
-
-  return (
-    <SafeAreaProvider>
-      {gameIsActive == true ? 
-        <RootNavigator /> 
-      :
-        <RootNewGameNavigator />
-      }
-    </SafeAreaProvider>
-  );
+    const gameIsActive = useAppSelector((state) => state.gameState.createdGame)
+    //Conditionally renders either new game selection, where player sets player character and ship
+    //or will render game section, where root screen is LandingPageScreen.
+    return (
+        <SafeAreaProvider>
+            {gameIsActive == true ?
+                <RootNavigator />
+                :
+                <RootNewGameNavigator />
+            }
+        </SafeAreaProvider>
+    );
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -43,7 +44,7 @@ function RootNewGameNavigator() {
         </Stack.Navigator>
     );
 }
-
+//Navigation stack for creating a new game
 const GameCreationStack = createNativeStackNavigator();
 function NewGameCreatorNavigator() {
   return (
@@ -54,10 +55,9 @@ function NewGameCreatorNavigator() {
     </GameCreationStack.Navigator>
   );
 }
-
+//Navigation bottom-tab stack for main portion of game, after creating game.
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
-
   return (
     <BottomTab.Navigator
       initialRouteName="LandingTab"

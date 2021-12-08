@@ -16,9 +16,9 @@ interface SelectableStarshipProps{
     starshipClass: string,
     pilots: Array<string>,
 }
-
+//Selectable starships player can choose. Need to be a subset of available starships to allow for linking with portrait image locally. This is because API does not have image resources for starships.
 const SelectableStarshipCard = ({category, selectedStarship, changeSelectedStarship, id, name, model, costInCredits, crew, hyperdriveRating, starshipClass, pilots} : SelectableStarshipProps) => {
-
+    //Need to require all images at runtime to allow for dynamic image selection based on character ID as dynamic import is not possible
     const fetchImageUrl = () => {
         switch(id){
             case "10":
@@ -43,7 +43,6 @@ const SelectableStarshipCard = ({category, selectedStarship, changeSelectedStars
         }
         changeSelectedStarship(newStarship)
     }
-
     return (
         <View style={ selectedStarship && selectedStarship.id == id ? styles.containerSelected : styles.container } onTouchEnd={handleClick}>
             <View style={styles.portraitImage}>

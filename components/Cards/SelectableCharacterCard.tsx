@@ -12,9 +12,9 @@ interface SelectableICharacterProps{
     gender: string,
     height: string,
 }
-
+//Selectable characters player can choose. Need to be a subset of available characters to allow for linking with portrait image locally. This is because API does not have image resources for characters.
 const SelectableCharacterCard = ({category, selectedCharacterProp, updateSelectedCharacter, id, name, gender, height} : SelectableICharacterProps) => {
-    
+    //Need to require all images at runtime to allow for dynamic image selection based on character ID as dynamic import is not possible
     const fetchImageUrl = () => {
         switch(id){
             case "10":
@@ -29,7 +29,6 @@ const SelectableCharacterCard = ({category, selectedCharacterProp, updateSelecte
         }
     }
     let portraitImage = fetchImageUrl();
-    
     const handleClick = () => {
         const newCharacter: PlayableCharacter = {
             id: id,
@@ -40,7 +39,6 @@ const SelectableCharacterCard = ({category, selectedCharacterProp, updateSelecte
         }
         updateSelectedCharacter(newCharacter)
     }
-    
     return (
         <View style={ selectedCharacterProp && selectedCharacterProp.id == id ? styles.containerSelected : styles.container } onTouchEnd={handleClick}>
             <View style={styles.portraitImage}>

@@ -1,5 +1,6 @@
 import {PlayableCharacter, PlayableStarship} from "../types";
 
+//Global variables
 export const tabBarIconSize = 22
 export const levelRequiredExp = 1000
 export const defaultCharacter: PlayableCharacter = {

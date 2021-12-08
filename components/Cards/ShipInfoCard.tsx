@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {Animated, Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Colors from "../../constants/Colors";
 // @ts-ignore
 import ProgressBar from 'react-native-progress/Bar';
 import {useAppSelector} from "../../hooks/hooks";
 
+//Component card rendering information about player ship, as well as hyperdrive rating
 export default function ShipInfoCard() {
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
-
+    //Need to require all images at runtime to allow for dynamic image selection based on character ID as dynamic import is not possible
     const fetchShipImageUrl = () => {
         switch(playerShip!.id){
             case "10":
@@ -16,9 +17,7 @@ export default function ShipInfoCard() {
                 return <Image style={styles.portraitImage} source={require('../../assets/images/starship_11_portrait.jpeg')} />
         }
     }
-
     let shipPortraitImage = fetchShipImageUrl();
-
     return (
         <View style={styles.detailsContainer}>
             {shipPortraitImage}
@@ -30,21 +29,18 @@ export default function ShipInfoCard() {
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     levelContainer: {
         flex: 1,
         alignSelf: "center",
     },
     detailsContainer: {
-        flex: 0.2,
+        flex: 0.3,
         flexDirection: "row",
         alignContent: 'center',
-        marginBottom: 20,
         marginHorizontal: 5,
         justifyContent: 'center',
         borderRadius: 20,
-        backgroundColor: 'rgba(52, 52, 52, 0.8)'
     },
     portraitImage: {
         flex: 0.6,

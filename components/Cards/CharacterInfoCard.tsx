@@ -11,6 +11,7 @@ export default function CharacterInfoCard() {
     const playerExp = useAppSelector((state) => state.gameState.playerExp)
     const playerFunds = useAppSelector((state) => state.gameState.playerFunds)
 
+    //Need to require all images at runtime to allow for dynamic image selection based on character ID as dynamic import is not possible
     const fetchCharacterImageUrl = () => {
         switch(playerCharacter!.id){
             case "10":

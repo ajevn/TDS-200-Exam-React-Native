@@ -7,45 +7,45 @@ import {useAppSelector} from "../../../hooks/hooks";
 import {tabBarIconSize} from "../../../constants/Variables";
 import {FontAwesome} from "@expo/vector-icons";
 
+//Render header component displaying player level, player image and player balance
 export default function HeaderInfoStats() {
     const playerCharacter = useAppSelector((state) => state.gameState.playerCharacter)
     const playerLevel = useAppSelector((state) => state.gameState.playerLevel)
     const playerExp = useAppSelector((state) => state.gameState.playerExp)
     const playerFunds = useAppSelector((state) => state.gameState.playerFunds)
 
+    //Need to require all images at runtime to allow for dynamic image selection based on character ID as dynamic import is not possible
     const fetchCharacterImageUrl = () => {
         switch(playerCharacter!.id){
             case "10":
                 return <Image style={styles.portraitImage} source={require('../../../assets/images/character_10_portrait.jpeg')} />
             case "11":
                 return <Image style={styles.portraitImage} source={require('../../../assets/images/character_11_portrait.jpeg')} />
-
             case "14":
                 return <Image style={styles.portraitImage} source={require('../../../assets/images/character_14_portrait.jpeg')} />
             case "20":
                 return <Image style={styles.portraitImage} source={require('../../../assets/images/character_20_portrait.jpeg')} />
         }
     }
-
     let characterPortraitImage = fetchCharacterImageUrl();
     return (
-            <View style={styles.container}>
-                <View style={styles.detailsContainer}>
-                    <View style={styles.levelContainer}>
-                        <Text style={styles.title}>Level {playerLevel}</Text>
-                        <ProgressBar style={styles.progressBar} progress={playerExp / 1000} width={100}  color={Colors.global.teal} unfilledColor={Colors.global.backgroundGray} />
-                    </View>
-                </View>
-                <View style={styles.imageContainer}>
-                    {characterPortraitImage}
-                </View>
-                <View style={styles.fundContainer}>
-                    <Text style={styles.fundText}>
-                        <FontAwesome name="dollar" style={styles.fundIcon} color={Colors.global.textYellow} size={tabBarIconSize}/>
-                        {playerFunds.toLocaleString()}
-                    </Text>
+        <View style={styles.container}>
+            <View style={styles.detailsContainer}>
+                <View style={styles.levelContainer}>
+                    <Text style={styles.title}>Level {playerLevel}</Text>
+                    <ProgressBar style={styles.progressBar} progress={playerExp / 1000} width={100}  color={Colors.global.teal} unfilledColor={Colors.global.backgroundGray} />
                 </View>
             </View>
+            <View style={styles.imageContainer}>
+                {characterPortraitImage}
+            </View>
+            <View style={styles.fundContainer}>
+                <Text style={styles.fundText}>
+                    <FontAwesome name="dollar" style={styles.fundIcon} color={Colors.global.textYellow} size={tabBarIconSize}/>
+                    {playerFunds.toLocaleString()}
+                </Text>
+            </View>
+        </View>
     );
 }
 

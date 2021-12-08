@@ -14,6 +14,7 @@ import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import { changePlayerCharacter } from '../store/gameState'
 import {PlayableCharacter} from '../types'
 
+//Main screen for selecting player character
 const CharacterSelectScreen = ({ navigation }: any ) => {
     const availableCharacterIds = useAppSelector((state) => state.gameState.availableCharacterIds)
     const dispatch = useAppDispatch();
@@ -22,10 +23,11 @@ const CharacterSelectScreen = ({ navigation }: any ) => {
     const [loading, setLoading] = useState<Boolean>(true);
     const [selectedCharacter, setSelectedPlayer] = useState<PlayableCharacter>();
 
+    //Fetching character info of the characters the player can select in availableCharacterIds. Only offering 4 playable characters as these need
+    //local portrait images which are not offered by API.
     useEffect(() => {
         getAllCharacters();
     }, []);
-
     const getAllCharacters = async() => {
         setLoading(true);
         let results: PlayableCharacter[] = [];
@@ -48,33 +50,33 @@ const CharacterSelectScreen = ({ navigation }: any ) => {
     const handlePressNext = () => {
         navigation.navigate('ShipSelect');
     }
+    //Dispatching selected character to redux state.
     const updateSelectedCharacter = (character: PlayableCharacter) => {
         dispatch(changePlayerCharacter(character))
         setSelectedPlayer(character);
     }
-
     return (
-            <View style={styles.container}>
-                <SafeAreaView style={{flex: 1,}}>
-                    <Text style={styles.headerText}>Choose your character</Text>
-                    {loading ?
-                        <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
-                            <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
-                        </View>
-                        :
-                        <FlatList
-                        data={characterList}
-                        renderItem={({item}) => <SelectableCharacterCard id={item.id} selectedCharacterProp={selectedCharacter} updateSelectedCharacter={updateSelectedCharacter} category={'people'} name={item.name} height={item.height} gender={item.gender} />}
-                        />
-                    }
-                    {
-                        selectedCharacter != null ?
-                        <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
-                        :
-                        <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
-                    }
-                </SafeAreaView>
-            </View>
+        <View style={styles.container}>
+            <SafeAreaView style={{flex: 1,}}>
+                <Text style={styles.headerText}>Choose your character</Text>
+                {loading ?
+                    <View style={[styles.spinnerContainer, styles.spinnerHorizontal]}>
+                        <ActivityIndicator size="large" animating={true} color={Colors.global.textYellow} />
+                    </View>
+                    :
+                    <FlatList
+                    data={characterList}
+                    renderItem={({item}) => <SelectableCharacterCard id={item.id} selectedCharacterProp={selectedCharacter} updateSelectedCharacter={updateSelectedCharacter} category={'people'} name={item.name} height={item.height} gender={item.gender} />}
+                    />
+                }
+                {
+                    selectedCharacter != null ?
+                    <Button title={'Next'} onPress={handlePressNext} disabled={false}/>
+                    :
+                    <Button title={'Next'} onPress={handlePressNext} disabled={true}/>
+                }
+            </SafeAreaView>
+        </View>
     );
   }
   const styles = StyleSheet.create({

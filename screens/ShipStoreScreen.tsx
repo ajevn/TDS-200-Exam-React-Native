@@ -18,13 +18,16 @@ import SearchBar from "../components/UI/SearchBar/SearchBar";
 import PurchaseStarshipModal from "../components/UI/Modal/PurchaseStarshipModal";
 import {handlePlayerShipPurchase} from "../store/gameState";
 
+//Main screen for ship store. Here the player will be able to purchase ships with higher hyperdrive rating after acquiring more funds from completing missions.
 export default function ShipStoreScreen() {
     const dispatch = useAppDispatch();
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
 
+    //Setting different data source for flatList based on if user has an active search value or not.
     const [filteredDataSource, setFilteredDataSource] = useState();
     const [masterDataSource, setMasterDataSource] = useState();
 
+    //Search value set from child SearchBar component. SearchActive state determines which data source will be used in flatList.
     const [search, setSearch] = useState<string>();
     const [searchActive, setSearchActive] = useState<boolean>(false);
 
@@ -32,6 +35,7 @@ export default function ShipStoreScreen() {
     const [loading, setLoading] = useState<Boolean>(true);
     const [selectedStarship, setSelectedStarship] = useState<PlayableStarship>();
 
+    //Fetches all data, or if search is active sets the master data source to the filtered results.
     useEffect(() => {
         if(!searchActive){
             getAllStarship();
@@ -40,6 +44,7 @@ export default function ShipStoreScreen() {
         }
     }, [filteredDataSource, searchActive]);
 
+    //Sort available ships based on if the user already uses this ship, else it sorts ship cost in credits.
     const sortOutputList = (unsorted: Array<PlayableStarship>) => {
         // @ts-ignore
         const sorted = unsorted.sort((a, b) => parseInt(a.cost_in_credits) - parseInt(b.cost_in_credits));
@@ -54,7 +59,7 @@ export default function ShipStoreScreen() {
         setMasterDataSource(sorted)
         setLoading(false);
     }
-
+    //Handles search
     const handleSearch = async(searchCriteria: any) => {
         setLoading(true);
         setSearchActive(true)
@@ -67,6 +72,7 @@ export default function ShipStoreScreen() {
         setFilteredDataSource(sorted)
         setLoading(false);
     }
+    //Handles changes if player activates search bar
     const handleSearchToggle = (status: boolean) => {
         if(status){
             setSearchActive(true)
@@ -79,6 +85,7 @@ export default function ShipStoreScreen() {
         setSelectedStarship(starShip);
         setModalActive(true)
     }
+    //Method is called if player accepts modal after clicking a ship purchase button
     const handleTransactionConfirm = (status: boolean) => {
         if(status){
             if(selectedStarship){

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {
     ActivityIndicator,
-    Dimensions,
     FlatList,
     ImageBackground,
     Pressable,
@@ -11,7 +10,6 @@ import {
     Text,
     View
 } from 'react-native';
-
 import {Mission, PlayableStarship} from '../types';
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
 import HeaderInfoStats from "../components/UI/HeaderInfo/HeaderInfoStats";
@@ -21,10 +19,12 @@ import {addExp, addMissionToPlayerStats, handleMissionOutcome} from "../store/ga
 import MissionModal from '../components/UI/Modal/MisisonModal';
 import CombatAnimator from "../components/UI/CombatAnimator/CombatAnimator";
 
+//Mission screen showing all the different components of the mission tab navigation route.
 export default function MissionScreen() {
     const playerShip = useAppSelector((state) => state.gameState.playerShip)
     const dispatch = useAppDispatch();
 
+    //Local state
     const [starshipList, setStarshipList] = useState();
     const [loading, setLoading] = useState<Boolean>(true);
     const [combatActive, setCombatActive] = useState<Boolean>(false);
@@ -46,6 +46,7 @@ export default function MissionScreen() {
     const handlePressFight = () => {
         setCombatActive(true)
     }
+    //Helper function returning formatted mission object
     const createMissionDetails = (expGain: number, didWin: boolean) => {
         const mission: Mission = {
             enemyShip: selectedStarship,
@@ -55,6 +56,7 @@ export default function MissionScreen() {
         }
         return mission;
     }
+    //Handles mission success, dispatching fund and exp gain to store, and updating local state to show mission modal success.
     const handleMissionSuccess = () => {
         setCombatActive(false)
         dispatch(handleMissionOutcome(true))
@@ -64,6 +66,7 @@ export default function MissionScreen() {
         setMissionSuccess(true)
         setMissionModalVisible(true)
     }
+    //Handles mission failure, dispatching fund loss and exp gain to store, and updating local state to show mission modal failure.
     const handleMissionFailure = () => {
         setCombatActive(false)
         dispatch(handleMissionOutcome(false))
@@ -79,7 +82,6 @@ export default function MissionScreen() {
     const updateSelectedStarship = (starShip: PlayableStarship) => {
         setSelectedStarship(starShip);
     }
-
     return (
             <ImageBackground style={ styles.container } source={require('../assets/images/background_missionScreen.jpg')}>
                 <SafeAreaView style={{flex: 1,}}>
@@ -147,6 +149,7 @@ const styles = StyleSheet.create({
     spinnerHorizontal: {
         flexDirection: "row",
         justifyContent: "space-around",
+        marginTop: 20,
         padding: 10
     },
     text: {

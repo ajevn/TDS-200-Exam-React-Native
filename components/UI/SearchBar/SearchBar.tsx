@@ -7,6 +7,7 @@ interface SearchBarProps {
     setSearchValue: any,
     setSearchActive: any,
 }
+//Generic SearchBar component allowing for search value state to be changed in parent component, filtering results based on search value.
 export default function SearchBar({ searchValue, setSearchValue, setSearchActive }: SearchBarProps) {
     const [clicked, setClicked] = useState<boolean>()
     return (

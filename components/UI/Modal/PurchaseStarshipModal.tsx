@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import React from "react";
+import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Colors from "../../../constants/Colors";
 
 interface PurchaseStarshipModal {
@@ -9,7 +9,7 @@ interface PurchaseStarshipModal {
     shipName: string,
     purchaseAmount: string,
 }
-
+//Rendering modal where user can confirm/decline ship purchase after clicking "purchase" on purchasable starship
 export default function PurchaseStarshipModal({shipName, purchaseAmount, visible, handleTapConfirmation}: PurchaseStarshipModal) {
     const handlePurchaseAccept = () => {
         handleTapConfirmation(true)
